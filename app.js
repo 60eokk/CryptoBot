@@ -1,12 +1,19 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');  // New import
 
 const app = express();
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));  // Serve static files
+
 let botResults = []; // Store the results of your bot here
 
 app.get('/results', (req, res) => {
   res.send(botResults);
+});
+
+app.get('*', (req, res) => {  // Catch-all route
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
 
 app.listen(3000, () => {

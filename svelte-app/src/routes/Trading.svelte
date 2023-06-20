@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
     import { onMount } from 'svelte';
   
     let data = [];
@@ -57,4 +57,23 @@
       }
     }
   </style>
+   -->
+
+
+   <script>
+    import { Link } from "svelte-routing";
+    import { onMount } from 'svelte';
+  
+    let cryptos = []; // This would hold the list of cryptocurrencies
+  
+    onMount(async () => {
+      // Fetch the list of cryptocurrencies
+      const response = await fetch('/api/cryptos');
+      cryptos = await response.json();
+    });
+  </script>
+  
+  {#each cryptos as crypto}
+    <p><Link to={`/trading/${crypto.id}`}>{crypto.name}</Link></p>
+  {/each}
   
