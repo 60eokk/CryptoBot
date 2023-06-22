@@ -12,7 +12,7 @@ app.get('/results', (req, res) => {
   res.send(botResults);
 });
 
-app.get('*', (req, res) => {  // Catch-all route
+app.get('*', (req, res) => { // Catch-all route
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
 
