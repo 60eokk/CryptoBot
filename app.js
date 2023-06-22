@@ -12,6 +12,13 @@ app.get('/results', (req, res) => {
   res.send(botResults);
 });
 
+app.get('/cryptocurrencies', (req, res) => {
+  // Assume botResults is an array of objects containing the information about each cryptocurrency
+  const cryptocurrencies = botResults.map(result => result.pair);
+  res.send(cryptocurrencies);
+});
+
+
 app.get('*', (req, res) => { // Catch-all route
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });

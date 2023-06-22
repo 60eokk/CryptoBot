@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { getContext } from 'svelte';
-  import LineChart from '../components/LineChart.svelte';
+  import LineChart from './LineChart.svelte';
   const { params } = getContext('routing');
 
   let data = []; // This would hold the price history
