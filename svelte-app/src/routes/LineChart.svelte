@@ -1,34 +1,20 @@
+
 <script>
-  import { onMount, onDestroy } from 'svelte';
-  import { Chart } from 'chart.js';
+  import { onMount } from 'svelte';
+  import { Link } from 'svelte-routing';
 
-  export let data = [];
-  export let labels = [];
+  let cryptocurrencies = [];
 
-  let canvas;
-  let chart;
-
-  onMount(() => {
-    chart = new Chart(canvas, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Price',
-            data: data,
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            lineTension: 0.1
-          }
-        ]
-      }
-    });
-  });
-
-  onDestroy(() => {
-    chart.destroy();
+  onMount(async () => {
+    const response = await fetch('http://localhost:3000/cryptocurrencies');
+    cryptocurrencies = await response.json();
   });
 </script>
 
-<canvas bind:this={canvas} />
+<h1>Trading</h1>
+
+<ul>
+  {#each cryptocurrencies as crypto}
+    <li><Link to={`/trading/${crypto}`}>{crypto}</Link></li>
+  {/each}
+</ul>
