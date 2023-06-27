@@ -5,7 +5,6 @@
 
   Chart.register(LinearScale, TimeScale, LineController, PointElement, LineElement, Title);
 
-
   export let data = [];
   
   let ctx;
@@ -37,6 +36,11 @@
       }
     });
   });
+
+  $: if (chart) {
+    chart.data.datasets[0].data = data;
+    chart.update();
+  }
 
   onDestroy(() => {
     if (chart) {

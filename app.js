@@ -23,6 +23,13 @@ app.get('*', (req, res) => { // Catch-all route
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
 
+app.get('/pricehistory/:pair', (req, res) => {
+  const pair = req.params.pair;
+  const priceHistoryForPair = priceHistory.get(pair) || [];  // Get the price history for this pair
+  res.send(priceHistoryForPair);  // Send the price history to the client
+});
+
+
 app.listen(3000, () => {
   console.log('Server running on port 3000');
 });
