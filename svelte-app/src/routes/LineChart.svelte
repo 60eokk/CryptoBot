@@ -1,10 +1,9 @@
-
 <script>
-  import { onMount } from 'svelte';
-  import { Link } from 'svelte-routing';
+  import { onMount, onDestroy } from 'svelte';
+  import { Chart, LinearScale, TimeScale, LineController, PointElement, LineElement, Title } from 'chart.js';
+  import 'chartjs-adapter-date-fns';
 
   Chart.register(LinearScale, TimeScale, LineController, PointElement, LineElement, Title);
-
 
   export let data = [];
   
@@ -37,6 +36,11 @@
       }
     });
   });
+
+  $: if (chart) {
+    chart.data.datasets[0].data = data;
+    chart.update();
+  }
 
   onDestroy(() => {
     if (chart) {
