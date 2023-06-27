@@ -1,31 +1,19 @@
-+<!-- Detail.svelte -->
 <script>
   import { onMount } from 'svelte';
-  import { getContext } from 'svelte';
+  import { useParams } from 'svelte-routing'; // import useParams
   import LineChart from './LineChart.svelte';
-  const { params } = getContext('routing');
 
-  let data = []; // This would hold the price history
-  let labels = []; // This will hold the labels for the chart
+  let cryptoData = [];
+
+  let params = useParams(); // use useParams to get the dynamic parts of the url
+  let name = "";
 
   onMount(async () => {
-    // Fetch the price history using params.id
-    const response = await fetch(`/api/price_history/${params.id}`);
-    data = await response.json();
-
-    // Create labels for the data points
-    labels = data.map((_, index) => index);
+    name = params.name;
+    const res = await fetch(`http://localhost:3000/cryptocurrencies/${name}`);
+    cryptoData = await res.json();
   });
-  let data = [];
-  let params = getContext('svelte-routing').params;
-  
-  $: {
-    fetch(`http://localhost:3000/prices/${params.pair}`)
-      .then(res => res.json())
-      .then(json => data = json);
-  }
 </script>
 
-<h1>{params.id}</h1>
-<LineChart {labels} {data} />
-<LineChart {data} />
+<h1>{name}</h1>  <!-- no need to use params.name here -->
+<LineChart {data}={cryptoData} />  <!-- You need to pass cryptoData as data -->
