@@ -1,7 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import { Chart, LinearScale, TimeScale, LineController, PointElement, LineElement, Title } from 'chart.js';
-  import 'chartjs-adapter-date-fns';
 
   Chart.register(LinearScale, TimeScale, LineController, PointElement, LineElement, Title);
 
@@ -14,8 +13,9 @@
     chart = new Chart(ctx, {
       type: 'line',
       data: {
+        labels: data.map(item => item.date), // assuming each item has a 'date' property
         datasets: [{
-          data: data,
+          data: data.map(item => item.value), // assuming each item has a 'value' property
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
           tension: 0.1
@@ -36,11 +36,6 @@
       }
     });
   });
-
-  $: if (chart) {
-    chart.data.datasets[0].data = data;
-    chart.update();
-  }
 
   onDestroy(() => {
     if (chart) {

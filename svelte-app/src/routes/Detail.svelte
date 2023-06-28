@@ -1,26 +1,17 @@
 <script>
   import { onMount } from 'svelte';
-  import { Route } from 'svelte-routing';
+  import { getContext } from 'svelte';
   import LineChart from './LineChart.svelte';
 
   let cryptoData = [];
 
-  let name = "";
-
-  function setName(params) {
-    name = params.cryptocurrencies;  // replace 'crypto' with your actual param name
-    fetchCryptoData();
-  }
-
-  async function fetchCryptoData() {
-    const res = await fetch(`http://localhost:3000/cryptocurrencies/${name}`);
+  onMount(async () => {
+    const { route } = getContext('svelte-routing');
+    const params = route.params; // access route params
+    const res = await fetch(`http://localhost:3000/cryptocurrencies/${params.crypto}/history`);
     cryptoData = await res.json();
-  }
-
-  onMount(fetchCryptoData);
+  });
 </script>
 
-<Route let:params={setName}>
-  <h1>{name}</h1>
-  <LineChart data= {cryptoData} />  
-</Route>
+<h1>{cryptoData.name}</h1>
+<LineChart data={cryptoData.data} />
