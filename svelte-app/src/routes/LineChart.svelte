@@ -1,4 +1,5 @@
 <script>
+  import 'chartjs-adapter-luxon';
   import { onMount, onDestroy } from 'svelte';
   import { Chart, LinearScale, TimeScale, LineController, PointElement, LineElement, Title } from 'chart.js';
 
