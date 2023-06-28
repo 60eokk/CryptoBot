@@ -1,20 +1,27 @@
 <script>
   import { onMount } from 'svelte';
-  import { Link, Route } from 'svelte-routing';
+  import { Link, Router, Route } from 'svelte-routing';
   import Detail from './Detail.svelte';
 
-  let cryptos = [];
+  let cryptoData = [];
 
   onMount(async () => {
     const res = await fetch('http://localhost:3000/cryptocurrencies');
-    cryptos = await res.json();
+    const rawData = await res.json();
+    cryptoData = Array.from(new Set(rawData));
   });
 </script>
 
-<div>
-  {#each cryptos as crypto (crypto.id)}
-    <Link to="{`/${crypto.name}`}">{crypto.name}</Link>
+<ul>
+  {#each cryptoData as item (item)}
+    <li>
+      <Link to={"/trading/" + item}>
+        {item}
+      </Link>
+    </li>
   {/each}
-</div>
+</ul>
 
-<Route path="/:crypto" component={Detail} />
+<Router>
+  <Route path="/:crypto" component={Detail} />
+</Router>

@@ -8,7 +8,7 @@
   let name = "";
 
   function setName(params) {
-    name = params.cryptocurrency;  // replace 'crypto' with your actual param name
+    name = params.cryptocurrencies;  // replace 'crypto' with your actual param name
     fetchCryptoData();
   }
 
