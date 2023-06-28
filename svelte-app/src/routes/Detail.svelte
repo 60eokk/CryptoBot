@@ -1,17 +1,16 @@
 <script>
   import { onMount } from 'svelte';
-  import { getContext } from 'svelte';
   import LineChart from './LineChart.svelte';
 
+  export let params = {};
   let cryptoData = [];
 
-  onMount(async () => {
-    const { route } = getContext('svelte-routing');
-    const params = route.params; // access route params
-    const res = await fetch(`http://localhost:3000/cryptocurrencies/${params.crypto}/history`);
-    cryptoData = await res.json();
-  });
+  $: if (params.name) {
+    fetch(`http://localhost:3000/cryptocurrencies/${params.name}`)
+      .then(res => res.json())
+      .then(data => cryptoData = data);
+  }
 </script>
 
-<h1>{cryptoData.name}</h1>
-<LineChart data={cryptoData.data} />
+<h1>{params.name}</h1>
+<LineChart data={cryptoData} />
