@@ -1,7 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { Link, Router, Route } from 'svelte-routing';
-  import Detail from './Detail.svelte';
+  import { Link } from 'svelte-routing';
 
   let cryptoData = [];
 
@@ -21,7 +20,3 @@
     </li>
   {/each}
 </ul>
-
-<Router>
-  <Route path="/:crypto" component={Detail} />
-</Router>
