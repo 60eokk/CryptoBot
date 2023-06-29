@@ -1,22 +1,22 @@
 <script>
-  import 'chartjs-adapter-luxon';
-  import { onMount, onDestroy } from 'svelte';
-  import { Chart, LinearScale, TimeScale, LineController, PointElement, LineElement, Title } from 'chart.js';
+  import { onMount } from 'svelte';
+  import { Chart, registerables } from 'chart.js';
+  import 'chartjs-adapter-date-fns'; // Ensure you have installed this via npm
 
-  Chart.register(LinearScale, TimeScale, LineController, PointElement, LineElement, Title);
+  Chart.register(...registerables);
 
-  export let data = [];
-  
-  let ctx;
   let chart;
+  let canvas;
+
+  export let data;
 
   onMount(() => {
-    chart = new Chart(ctx, {
+    chart = new Chart(canvas.getContext('2d'), {
       type: 'line',
       data: {
-        labels: data.map(item => item.date), // assuming each item has a 'date' property
         datasets: [{
-          data: data.map(item => item.value), // assuming each item has a 'value' property
+          label: 'My First Dataset',
+          data: data,
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
           tension: 0.1
@@ -29,20 +29,11 @@
             time: {
               unit: 'day'
             }
-          },
-          y: {
-            beginAtZero: true
           }
         }
       }
     });
   });
-
-  onDestroy(() => {
-    if (chart) {
-      chart.destroy();
-    }
-  });
 </script>
 
-<canvas bind:this={ctx}></canvas>
+<canvas bind:this={canvas}></canvas>
