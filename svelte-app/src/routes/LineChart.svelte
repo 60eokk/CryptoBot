@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { Chart, registerables } from 'chart.js';
-  import 'chartjs-adapter-date-fns'; // Ensure you have installed this via npm
+  import 'chartjs-adapter-date-fns'; 
 
   Chart.register(...registerables);
 
@@ -34,6 +34,11 @@
       }
     });
   });
+
+  $: if (chart && data) {
+    chart.data.datasets[0].data = data;
+    chart.update();
+  }
 </script>
 
 <canvas bind:this={canvas}></canvas>

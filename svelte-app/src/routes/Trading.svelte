@@ -1,8 +1,8 @@
 <script>
   import { onMount } from 'svelte';
   import { Link } from 'svelte-routing';
-
   let cryptoData = [];
+
 
   onMount(async () => {
     const res = await fetch('http://localhost:3000/cryptocurrencies');
